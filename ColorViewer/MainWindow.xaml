@@ -1,0 +1,65 @@
+﻿<Window x:Class="ColorViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ColorViewer" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding AddCommand}" Modifiers="Ctrl" Key="C"/>
+        <KeyBinding Command="{Binding RemoveCommand}" Key="Delete"/>
+        <KeyBinding Command="{Binding ClearCommand}" Modifiers="Ctrl" Key="Delete"/>
+    </Window.InputBindings>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Edit">
+                <MenuItem Command="{Binding AddCommand}" Header="Add" InputGestureText="Ctrl+C"/>
+                <MenuItem Command="{Binding RemoveCommand}" Header="Remove" InputGestureText="Del"/>
+                <MenuItem Command="{Binding ClearCommand}" Header="Clear" InputGestureText="Ctrl+Del"/>
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="600"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label>A:</Label>
+            <Slider Value="{Binding CurrentColor.A}" AutoToolTipPlacement="BottomRight" Maximum="255" Grid.Column="1"></Slider>
+            <TextBox Text="{Binding CurrentColor.A, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"></TextBox>
+
+            <Label Grid.Row="1">R:</Label>
+            <Slider Value="{Binding CurrentColor.R}" AutoToolTipPlacement="BottomRight" Maximum="255" Grid.Row="1" Grid.Column="1"></Slider>
+            <TextBox Text="{Binding CurrentColor.R, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="2"></TextBox>
+
+            <Label Grid.Row="2">G:</Label>
+            <Slider Value="{Binding CurrentColor.G}" AutoToolTipPlacement="BottomRight" Maximum="255" Grid.Row="2" Grid.Column="1"></Slider>
+            <TextBox Text="{Binding CurrentColor.G, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2"></TextBox>
+
+            <Label Grid.Row="3">B:</Label>
+            <Slider Value="{Binding CurrentColor.B}" AutoToolTipPlacement="BottomRight" Maximum="255"  Grid.Row="3" Grid.Column="1"></Slider>
+            <TextBox Text="{Binding CurrentColor.B, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="2"></TextBox>
+
+            <Border Name="border" Margin="10" Grid.Column="3" Grid.RowSpan="4">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding Path=CurrentColor.ColorInfo}"></SolidColorBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+        <UniformGrid DockPanel.Dock="Top" Columns="3">
+            <Button Command="{Binding AddCommand}" Name="AddButton" Margin="100,10">Add</Button>
+            <Button Command="{Binding RemoveCommand}" Name="DeleteButton" Margin="100,10">Remove</Button>
+            <Button Command="{Binding ClearCommand}" Name="ClearButton" Margin="100,10">Clear</Button>
+        </UniformGrid>
+        <ListBox SelectedItem="{Binding SelectedColor}" ItemsSource="{Binding Path=Colors}" Name="colorsListBox" Height="300" DockPanel.Dock="Bottom"></ListBox>
+    </DockPanel>
+</Window>
